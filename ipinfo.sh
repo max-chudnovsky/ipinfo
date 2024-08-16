@@ -14,6 +14,15 @@ if [ "$(alias | grep "$PRG")" == "" ]; then
     fi
 fi
 
+# check prereqs to ensure it does not fail because some package is missing
+chkpkg(){
+    [ "`dpkg -l $1 | grep $1 | grep ^ii`" == "" ] && {
+	echo "$PRG: ERROR: host utility is not installed:  package name: $1"
+	exit 1
+    }  
+}
+for id in bind9-host curl; do chkpkg $id; done
+
 getinfo(){
 	# function pulls info about IP from ipinfo.io api
 	curl http://ipinfo.io/$IP 2>&1 | awk -F\" '$2=="ip"{printf("%s:",$4)}$2=="org"{printf("%s",$4)}END{print ""}'
