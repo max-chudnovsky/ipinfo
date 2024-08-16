@@ -16,7 +16,7 @@ fi
 
 getinfo(){
 	# function pulls info about IP from ipinfo.io api
-	curl http://ipinfo.io/$IP 2>&1 | awk -F\" '$2=="ip"{printf("%s:",$4)}$2=="org"{print $4}'
+	curl http://ipinfo.io/$IP 2>&1 | awk -F\" '$2=="ip"{printf("%s:",$4)}$2=="org"{printf("%s",$4)}END{print ""}'
 }
 
 # lets check if parameter is IP and get ip if its not
@@ -25,7 +25,7 @@ if [[ "$1" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
 else
 	# api will return your external ip info if no IP provided which is also info
 	# we will only query for hostname if parameter was provided
-	[ "$1" != "" ] && IP=$(host $1 | awk 'NR==1{print $NF}')
+	[ "$1" != "" ] && IP=$(host $1 | awk 'NR==1{print $NF}') 
 fi
 
 # main
