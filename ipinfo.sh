@@ -23,11 +23,6 @@ chkpkg(){
 }
 for id in bind9-host curl; do chkpkg $id; done
 
-getinfo(){
-	# function pulls info about IP from ipinfo.io api
-	curl http://ipinfo.io/$IP 2>&1 | awk -F\" '$2=="ip"{printf("%s:",$4)}$2=="org"{printf("%s",$4)}END{print ""}'
-}
-
 # lets check if parameter is IP and get ip if its not
 if [[ "$1" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
 	IP=$1
@@ -38,4 +33,9 @@ else
 fi
 
 # main
-getinfo
+# pull info about IP from ipinfo.io api and output it in parsable way
+curl http://ipinfo.io/$IP 2>&1 | awk -F\" '
+	$2=="ip"{printf("%s:",$4)}
+	$2=="org"{printf("%s",$4)}
+	END{print ""}
+'
