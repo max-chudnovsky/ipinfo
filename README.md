@@ -8,4 +8,4 @@ Utility displays ip and organization information in parsable format with : delim
   ```
 Durring first run, it adds an alias `ipinfo` that makes it more convinient to run
 
-It accepts parameter host or IP of the target host you want to get info about
+It accepts parameter `host` or `IP` of the target host you want to get info about
